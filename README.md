@@ -6,10 +6,10 @@
      ```
 2. Clone o repositório e entre na pasta:
    ``` bash
-   git clone https://github.com/seuusuario/seurepositorio.git
+   git clone https://github.com/Lucasleallopes/Crud.git
    ```
     ``` bash
-   cd seurepositorio
+   cd seurepositorio/CRUD
     ```
 3. Suba os serviços com Docker Compose:
    ``` bash
