@@ -1,4 +1,5 @@
 ﻿using CRUD.Application.Services;
+using CRUD.Domain.DTOs;
 using CRUD.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,14 +32,14 @@ namespace CRUD.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(Item item)
+        public async Task<ActionResult> Add(ItemDto item)
         {
             await _service.AddAsync(item);
             return CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Item item)
+        public async Task<ActionResult> Update(int id, ItemDto item)
         {
             if (id != item.Id) return BadRequest("IDs não coincidem.");
             await _service.UpdateAsync(item);

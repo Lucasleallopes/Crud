@@ -5,6 +5,8 @@ using CRUD.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using CRUD.Domain.Mapper;
 
 namespace CRUD.WebAPI {
     public class Program {
@@ -18,7 +20,8 @@ namespace CRUD.WebAPI {
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(); 
-
+            builder.Services.AddAutoMapper(typeof(MapperItem));
+            
             var app = builder.Build();
             
             using (var scope = app.Services.CreateScope())

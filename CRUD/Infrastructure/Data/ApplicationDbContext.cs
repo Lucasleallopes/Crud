@@ -19,11 +19,6 @@ namespace CRUD.Infrastructure.Data {
         }
         
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        //     var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-        //     optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        // }
-        
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         //     var connectionString = "Server=localhost;Database=BancoLucas;User=root;Password=root;";
         //     optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         // }
