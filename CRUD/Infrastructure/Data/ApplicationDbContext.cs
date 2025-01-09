@@ -8,23 +8,51 @@ namespace CRUD.Infrastructure.Data {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        //     var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+        //
+        //     if (string.IsNullOrEmpty(connectionString)) {
+        //         throw new InvalidOperationException("Connection string 'ConnectionStrings__DefaultConnection' não encontrada.");
+        //     }
+        //     
+        //     // optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        //     optionsBuilder.UseSqlServer(connectionString);
+        // }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+            if (!optionsBuilder.IsConfigured) {
+                var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
-            if (string.IsNullOrEmpty(connectionString)) {
-                throw new InvalidOperationException("Connection string 'ConnectionStrings__DefaultConnection' não encontrada.");
+                if (string.IsNullOrEmpty(connectionString)) {
+                    connectionString = "Server=db,1433;Database=BancoLucas;User=sa;Password=SenhaForte123!;TrustServerCertificate=True;";
+                }
+
+                optionsBuilder.UseSqlServer(connectionString, options => {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null);
+                });
             }
-
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
+
+
         
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         //     var connectionString = "Server=localhost;Database=BancoLucas;User=root;Password=root;";
         //     optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        // }
+        // } antigo swagger sem doker mysql
 
+        // protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        //     modelBuilder.Entity<Item>().ToTable("Items");
+        // } antigo
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Item>().ToTable("Items");
+            modelBuilder.Entity<Item>(entity => {
+                entity.ToTable("Items");
+                entity.Property(e => e.Price).HasPrecision(18, 2); // Defina a precisão e escala
+            });
         }
+
     }
 }

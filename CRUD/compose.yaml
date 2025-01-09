@@ -1,21 +1,20 @@
-﻿version: '3.8'
-services:
+﻿services:
   db:
-    image: mysql:8.0
-    container_name: mysql_container
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver_container
+    user: root
     ports:
-      - "3307:3306"
+      - "1433:1433"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: BancoLucas
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SenhaForte123!"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-uroot", "-proot"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P SenhaForte123! -Q 'SELECT 1'"]
       interval: 30s
-      timeout: 30s
+      timeout: 20s
       retries: 3
     volumes:
-      - db_data:/var/lib/mysql
-
+      - db_data:/var/opt/mssql
   app:
     build:
       context: ../
@@ -26,7 +25,6 @@ services:
       db:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=BancoLucas;User=root;Password=root;
-
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=BancoLucas;User=sa;Password=SenhaForte123!;TrustServerCertificate=True;
 volumes:
   db_data:
