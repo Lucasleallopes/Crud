@@ -8,17 +8,6 @@ namespace CRUD.Infrastructure.Data {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
         
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        //     var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-        //
-        //     if (string.IsNullOrEmpty(connectionString)) {
-        //         throw new InvalidOperationException("Connection string 'ConnectionStrings__DefaultConnection' não encontrada.");
-        //     }
-        //     
-        //     // optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        //     optionsBuilder.UseSqlServer(connectionString);
-        // }
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
                 var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
@@ -35,17 +24,11 @@ namespace CRUD.Infrastructure.Data {
                 });
             }
         }
-
-
         
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         //     var connectionString = "Server=localhost;Database=BancoLucas;User=root;Password=root;";
         //     optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        // } antigo swagger sem doker mysql
-
-        // protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        //     modelBuilder.Entity<Item>().ToTable("Items");
-        // } antigo
+        // } antigo swagger sem dokcer mysql
         
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Item>(entity => {
