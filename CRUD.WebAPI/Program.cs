@@ -5,7 +5,6 @@ using CRUD.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AutoMapper;
 using CRUD.Domain.Mapper;
 
 namespace CRUD.WebAPI {
